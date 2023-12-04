@@ -2,10 +2,12 @@ import os
 from pathlib import Path
 from typing import List, Set, Tuple
 
+CardsCollectionType = List[Tuple[Set[int], Set[int]]]
 
-def parse_input(file_name: str) -> List[Tuple[Set[int], Set[int]]]:
+
+def parse_input(file_name: str) -> CardsCollectionType:
     with open(Path(os.getcwd()) / "day_4" / file_name) as f:
-        cards: List[Tuple[Set[int], Set[int]]] = []
+        cards: CardsCollectionType = []
         for line in f.readlines():
             line = line.split(":")[1]
             wining_nums = set(
@@ -18,12 +20,12 @@ def parse_input(file_name: str) -> List[Tuple[Set[int], Set[int]]]:
     return cards
 
 
-def get_scores(cards: List[Tuple[Set[int], Set[int]]]) -> int:
+def get_scores(cards: CardsCollectionType) -> int:
     scores = [2 ** (len(card[0].intersection(card[1])) - 1) for card in cards]
     return sum([score for score in scores if score != 0.5])
 
 
-def get_copied_cards(cards: List[Tuple[Set[int], Set[int]]]) -> int:
+def get_copied_cards(cards: CardsCollectionType) -> int:
     copied_cards = {num: 1 for num in range(1, len(cards) + 1)}
     for number, card in enumerate(cards):
         card_number = number + 1
